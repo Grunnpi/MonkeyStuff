@@ -4,7 +4,7 @@
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description This script will automagically blah blah blah
-// @include *
+// @match        *://*/*
 // ==/UserScript==
 (function() {
     'use strict';
