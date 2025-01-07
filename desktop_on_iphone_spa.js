@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_on_iphone_spa
-// @version     0.1
+// @version     0.2
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description This script will automagically blah blah blah
