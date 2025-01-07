@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.2
+// @version     0.3
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
 // @match        *://*/*
+// @icon        https://cdn.simpleicons.org/bilibili/pink
 // @run-at       document-end
 // ==/UserScript==
 (function() {
@@ -19,13 +20,13 @@
 
     Object.defineProperty(sap.ui.Device.system, 'tablet', {
         get: function() {
-            return false;
+            return true;
         }
     });
 
     Object.defineProperty(sap.ui.Device.system, 'phone', {
         get: function() {
-            return false;
+            return true;
         }
     });
 

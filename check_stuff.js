@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name        check_stuff
-// @version     0.5
+// @version     0.6
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description This script will automagically blah blah blah
 // @match        *://*/*
-// @icon        https://simpleicons.org/icons/cryptomator-color.svg
+// @icon        https://cdn.simpleicons.org/bilibili/pink
 // @run-at      document-end
 // ==/UserScript==
 (function() {
