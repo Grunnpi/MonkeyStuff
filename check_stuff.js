@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name        check_stuff
-// @version     0.4
+// @version     0.5
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description This script will automagically blah blah blah
 // @match        *://*/*
-// @icon        https://simpleicons.org/icons/cryptomator.svg
+// @icon        https://simpleicons.org/icons/cryptomator-color.svg
 // @run-at      document-end
 // ==/UserScript==
 (function() {
@@ -22,7 +22,7 @@
     // Fonction pour afficher la popup avec la valeur de l'attribut class
     function showClassAttribute() {
         if (!popupDisplayed) {
-            var xpath = '//*[@id="application-TimeManagement-manageClockInOut-component---MainPage--tableId"]';
+            var xpath = '//*[@id="__button0"]';
             var element = getElementByXPath(xpath);
 
             if (element) {
