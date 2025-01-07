@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        check_stuff
-// @version     0.2
+// @version     0.3
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description This script will automagically blah blah blah
@@ -10,6 +10,9 @@
 (function() {
     'use strict';
 
+    // Variable pour suivre si la popup a déjà été affichée
+    var popupDisplayed = false;
+
     // Fonction pour obtenir l'élément par XPath
     function getElementByXPath(xpath) {
         return document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
@@ -17,14 +20,17 @@
 
     // Fonction pour afficher la popup avec la valeur de l'attribut class
     function showClassAttribute() {
-        var xpath = '//*[@id="__section0-innerGrid"]';
-        var element = getElementByXPath(xpath);
+        if (!popupDisplayed) {
+            var xpath = '//*[@id="__section0-innerGrid"]';
+            var element = getElementByXPath(xpath);
 
-        if (element) {
-            var classAttribute = element.getAttribute('class');
-            alert('Class attribute: ' + classAttribute);
-        } else {
-            console.log('Element not found.');
+            if (element) {
+                var classAttribute = element.getAttribute('class');
+                alert('Class attribute: ' + classAttribute);
+                popupDisplayed = true; // Mettre à jour le flag pour indiquer que la popup a été affichée
+            } else {
+                console.log('Element not found.');
+            }
         }
     }
 
