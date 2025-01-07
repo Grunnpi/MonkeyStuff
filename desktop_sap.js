@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.1
+// @version     0.2
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
 // @match        *://*/*
-// @run-at       document-start
+// @run-at       document-end
 // ==/UserScript==
 (function() {
     'use strict';
