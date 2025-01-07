@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        desktop_innerwidth.js
+// @name        desktop_sap.js
 // @version     0.1
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
