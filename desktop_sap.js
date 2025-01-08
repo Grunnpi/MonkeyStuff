@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.5
+// @version     0.6
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -62,6 +62,11 @@
                  mParameters.success = function(oResult) {
                      console.log('Avant la fonction success');
                      console.log(oResult)
+
+                       oResult.GetUserData.IsBureauEnabled = "X"
+                       oResult.GetUserData.IsMedicalEnabled = "X"
+
+
                      // Ajoutez ici le code supplémentaire ou modifié
                      originalSuccess.apply(this, arguments);
                      console.log('Après la fonction success');
