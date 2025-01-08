@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.8
+// @version     0.9
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -89,9 +89,12 @@
             ODataModel.prototype.callFunction = function(sPath, mParameters) {
                 addLog('callFunction[' + sPath + ']-before');
                 const originalSuccess = mParameters.success;
+                const originalError = mParameters.error;
 
                 if ( sPath === "/GetUserData" ) {
                   console.log(mParameters)
+
+                  addLog('GetUserData.override');
 
                  // Redéfinir la fonction success
                  mParameters.success = function(oResult) {
@@ -105,11 +108,23 @@
                      originalSuccess.apply(this, arguments);
                      addLog('GetUserData.success-after');
                  };
+
+                 mParameters.error = function(oError) {
+                      addLog('GetUserData.error-before');
+                      console.log(oError)
+
+                      var oFunctError = JSON.parse(oError.responseText);
+                      addError(oFunctError)
+
+                      originalError.apply(this, arguments);
+                      addLog('GetUserData.error-after');
+                  };
                 }
+
+                 addLog('callFunction[' + sPath + ']-after');
 
                  // Appeler la méthode originale callFunction avec les paramètres modifiés
                  return originalCallFunction.apply(this, arguments);
-                 addLog('callFunction[' + sPath + ']-after');
             };
         } else {
             addError('module sap/ui/model/odata/v2/ODataModel not defined');
