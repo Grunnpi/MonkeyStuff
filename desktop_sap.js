@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.10
+// @version     0.11
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -12,62 +12,58 @@
     'use strict';
 
     // Créer le footer
-    const footer = document.createElement('footer');
-    footer.id = 'logFooter';
+    const footer = document.createElement('div');
     footer.style.position = 'fixed';
     footer.style.bottom = '0';
     footer.style.width = '95%';
     footer.style.backgroundColor = '#333';
     footer.style.color = '#fff';
+    footer.style.fontFamily = 'monospace';
     footer.style.padding = '10px';
-    footer.style.fontSize = '12px';
     footer.style.zIndex = '1000';
     footer.style.overflowY = 'auto';
-    footer.style.maxHeight = '100px';
-    footer.style.display = 'flex';
-    footer.style.flexDirection = 'column';
-
+    footer.style.maxHeight = '150px';
+    document.body.appendChild(footer);
 
     // Créer le conteneur pour les logs
-     const logContainer = document.createElement('div');
-     logContainer.style.flexGrow = '1';
-     footer.appendChild(logContainer);
+    const logContainer = document.createElement('div');
+    footer.appendChild(logContainer);
 
-      // Créer le bouton Clear
-     const clearButton = document.createElement('button');
-     clearButton.textContent = 'Clear';
-     clearButton.style.backgroundColor = '#444';
-     clearButton.style.color = '#fff';
-     clearButton.style.border = 'none';
-     clearButton.style.padding = '5px 10px';
-     clearButton.style.cursor = 'pointer';
-     clearButton.style.alignSelf = 'flex-end';
+    // Créer le bouton Clear
+    const clearButton = document.createElement('button');
+    clearButton.textContent = 'Clear';
+    clearButton.style.position = 'fixed';
+    clearButton.style.right = '10px';
+    clearButton.style.bottom = '10px';
+    clearButton.style.backgroundColor = '#444';
+    clearButton.style.color = '#fff';
+    clearButton.style.border = 'none';
+    clearButton.style.padding = '5px 10px';
+    clearButton.style.cursor = 'pointer';
+    clearButton.style.zIndex = '1001'; // Assurez-vous que le bouton est au-dessus du footer
+    document.body.appendChild(clearButton);
 
-     // Ajouter l'événement de clic pour vider les logs
-     clearButton.addEventListener('click', function() {
-         logContainer.innerHTML = '';
-     });
-
-     // Ajouter le bouton Clear au footer
-     footer.appendChild(clearButton);
-
-     // Ajouter le footer au body
-     document.body.appendChild(footer);
-
-    // Fonction pour ajouter des logs au footer
+    // Fonction pour ajouter un log
     function addLog(message) {
-        const logMessage = document.createElement('div');
-        logMessage.textContent = message;
-        footer.appendChild(logMessage);
-        footer.scrollTop = footer.scrollHeight; // Auto-scroll vers le bas
+        const log = document.createElement('div');
+        log.textContent = message;
+        logContainer.appendChild(log);
+        footer.scrollTop = footer.scrollHeight; // Défilement automatique vers le bas
     }
+
+    // Fonction pour ajouter une erreur
     function addError(message) {
-        const errorMessage = document.createElement('div');
-        errorMessage.textContent = message;
-        errorMessage.style.color = 'red';
-        footer.appendChild(errorMessage);
-        footer.scrollTop = footer.scrollHeight; // Auto-scroll vers le bas
+        const error = document.createElement('div');
+        error.textContent = message;
+        error.style.color = 'red';
+        logContainer.appendChild(error);
+        footer.scrollTop = footer.scrollHeight; // Défilement automatique vers le bas
     }
+
+    // Événement pour le bouton Clear
+    clearButton.addEventListener('click', () => {
+        logContainer.innerHTML = '';
+    });
 
     // Exemple d'utilisation
     addLog('** script started');
