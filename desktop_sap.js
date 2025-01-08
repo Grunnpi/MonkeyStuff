@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.7
+// @version     0.8
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -33,12 +33,14 @@
         const logMessage = document.createElement('div');
         logMessage.textContent = message;
         footer.appendChild(logMessage);
+        footer.scrollTop = footer.scrollHeight; // Auto-scroll vers le bas
     }
     function addError(message) {
         const errorMessage = document.createElement('div');
         errorMessage.textContent = message;
         errorMessage.style.color = 'red';
         footer.appendChild(errorMessage);
+        footer.scrollTop = footer.scrollHeight; // Auto-scroll vers le bas
     }
 
     // Exemple d'utilisation
@@ -85,7 +87,7 @@
 
             // Encapsuler la méthode originale
             ODataModel.prototype.callFunction = function(sPath, mParameters) {
-                addLog('Avant la méthode callFunction');
+                addLog('callFunction[' + sPath + ']-before');
                 const originalSuccess = mParameters.success;
 
                 if ( sPath === "/GetUserData" ) {
@@ -93,26 +95,24 @@
 
                  // Redéfinir la fonction success
                  mParameters.success = function(oResult) {
-                     addLog('Avant la fonction success');
+                     addLog('GetUserData.success-before');
                      console.log(oResult)
 
-                       oResult.GetUserData.IsBureauEnabled = "X"
-                       oResult.GetUserData.IsMedicalEnabled = "X"
-
+                     oResult.GetUserData.IsBureauEnabled = "X"
+                     oResult.GetUserData.IsMedicalEnabled = "X"
 
                      // Ajoutez ici le code supplémentaire ou modifié
                      originalSuccess.apply(this, arguments);
-                     addLog('Après la fonction success');
+                     addLog('GetUserData.success-after');
                  };
                 }
 
                  // Appeler la méthode originale callFunction avec les paramètres modifiés
                  return originalCallFunction.apply(this, arguments);
-                 addLog('Après la méthode callFunction');
+                 addLog('callFunction[' + sPath + ']-after');
             };
         } else {
-            console.error('Le module sap/ui/model/odata/v2/ODataModel n\'est pas défini.');
-            addError('Le module sap/ui/model/odata/v2/ODataModel n\'est pas défini.');
+            addError('module sap/ui/model/odata/v2/ODataModel not defined');
         }
     });
 })();
