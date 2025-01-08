@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.4
+// @version     0.5
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -45,26 +45,33 @@
 
 
     // Attendre que le module soit chargé
-    sap.ui.require(["sap/ui/model/odata/v2/ODataModel"], function(D) {
-        if (D) {
+    sap.ui.require(["sap/ui/model/odata/v2/ODataModel"], function(ODataModel) {
+    if (ODataModel) {
             // Sauvegarder la méthode originale
-            const originalCallFunction = D.prototype.callFunction;
+            const originalCallFunction = ODataModel.prototype.callFunction;
 
             // Encapsuler la méthode originale
-            D.prototype.callFunction = function(i, P) {
+            ODataModel.prototype.callFunction = function(sPath, mParameters) {
                 console.log('Avant la méthode callFunction');
-                // Ajoutez ici le code supplémentaire ou modifié
-                originalCallFunction.apply(this, arguments);
-                console.log('Après la méthode callFunction');
-            };
+                const originalSuccess = mParameters.success;
 
-               /*
-            // Tester la méthode surchargée
-            var myObject = new D({
-                serviceUrl: "/path/to/service"
-            });
-            myObject.callFunction('test1', 'test2');
-                */
+                if ( sPath === "/GetUserData" ) {
+                  console.log(mParameters)
+
+                 // Redéfinir la fonction success
+                 mParameters.success = function(oResult) {
+                     console.log('Avant la fonction success');
+                     console.log(oResult)
+                     // Ajoutez ici le code supplémentaire ou modifié
+                     originalSuccess.apply(this, arguments);
+                     console.log('Après la fonction success');
+                 };
+                }
+
+                 // Appeler la méthode originale callFunction avec les paramètres modifiés
+                 return originalCallFunction.apply(this, arguments);
+                 console.log('Après la méthode callFunction');
+            };
         } else {
             console.error('Le module sap/ui/model/odata/v2/ODataModel n\'est pas défini.');
         }
