@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.9
+// @version     0.10
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -24,9 +24,35 @@
     footer.style.zIndex = '1000';
     footer.style.overflowY = 'auto';
     footer.style.maxHeight = '100px';
+    footer.style.display = 'flex';
+    footer.style.flexDirection = 'column';
 
-    // Ajouter le footer au body
-    document.body.appendChild(footer);
+
+    // Créer le conteneur pour les logs
+     const logContainer = document.createElement('div');
+     logContainer.style.flexGrow = '1';
+     footer.appendChild(logContainer);
+
+      // Créer le bouton Clear
+     const clearButton = document.createElement('button');
+     clearButton.textContent = 'Clear';
+     clearButton.style.backgroundColor = '#444';
+     clearButton.style.color = '#fff';
+     clearButton.style.border = 'none';
+     clearButton.style.padding = '5px 10px';
+     clearButton.style.cursor = 'pointer';
+     clearButton.style.alignSelf = 'flex-end';
+
+     // Ajouter l'événement de clic pour vider les logs
+     clearButton.addEventListener('click', function() {
+         logContainer.innerHTML = '';
+     });
+
+     // Ajouter le bouton Clear au footer
+     footer.appendChild(clearButton);
+
+     // Ajouter le footer au body
+     document.body.appendChild(footer);
 
     // Fonction pour ajouter des logs au footer
     function addLog(message) {
@@ -44,7 +70,7 @@
     }
 
     // Exemple d'utilisation
-    addLog('Script démarré');
+    addLog('** script started');
 
     // Redéfinir les propriétés sap.ui.Device.system pour simuler un environnement de bureau
     Object.defineProperty(sap.ui.Device.system, 'desktop', {
