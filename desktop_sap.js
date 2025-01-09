@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.12
+// @version     0.13
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
-// @match        *://*/*
+// @match        *://*/*myrh*
 // @icon        https://cdn.simpleicons.org/bilibili/pink
 // @run-at       document-end
 // ==/UserScript==
@@ -126,6 +126,8 @@
                      addLog('GetUserData.success-before');
                      console.log(oResult)
 
+                     addLog('[' + oResult.GetUserData.Admin + '][' + oResult.GetUserData.Ename + '][' + oResult.GetUserData.UserId + ']');
+
                      oResult.GetUserData.IsBureauEnabled = "X"
                      oResult.GetUserData.IsMedicalEnabled = "X"
 
@@ -146,7 +148,7 @@
                   };
                 }
 
-                 addLog('callFunction[' + sPath + ']-after');
+                 //addLog('callFunction[' + sPath + ']-after');
 
                  // Appeler la méthode originale callFunction avec les paramètres modifiés
                  originalCallFunction.apply(this, arguments);
