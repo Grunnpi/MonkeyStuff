@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        desktop_sap.js
-// @version     0.15
+// @version     0.16
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -116,15 +116,15 @@
                 if ( sPath === "/GetUserData" ) {
 
                 if (mParameters) {
-                    K = mParameters.groupId || mParameters.batchGroupId;
-                    N = mParameters.changeSetId;
-                    J = mParameters.method ? mParameters.method : J;
-                    G = Object.assign({}, mParameters.urlParameters);
-                    V = mParameters.eTag;
-                    S = mParameters.success;
-                    I = mParameters.error;
-                    T = mParameters.headers;
-                    b1 = mParameters.refreshAfterChange;
+                    var K = mParameters.groupId || mParameters.batchGroupId;
+                    var N = mParameters.changeSetId;
+                    var J = mParameters.method ? mParameters.method : "GET";
+                    var G = Object.assign({}, mParameters.urlParameters);
+                    var V = mParameters.eTag;
+                    var S = mParameters.success;
+                    var I = mParameters.error;
+                    var T = mParameters.headers;
+                    var b1 = mParameters.refreshAfterChange;
 
                     console.log("Headers")
                     console.log(T)
