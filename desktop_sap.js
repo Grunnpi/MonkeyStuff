@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name        desktop_sap.js
-// @version     0.13
+// @name        desktop_samParameters.js
+// @version     0.14
 // @namespace   https://github.com/Grunnpi/MonkeyStuff
 // @author      Pierre
 // @description  Force SAP JavaScript to return desktop mode
@@ -68,20 +68,20 @@
     // Exemple d'utilisation
     addLog('** script started');
 
-    // Redéfinir les propriétés sap.ui.Device.system pour simuler un environnement de bureau
-    Object.defineProperty(sap.ui.Device.system, 'desktop', {
+    // Redéfinir les propriétés samParameters.ui.Device.system pour simuler un environnement de bureau
+    Object.defineProperty(samParameters.ui.Device.system, 'desktop', {
         get: function() {
             return true;
         }
     });
 
-    Object.defineProperty(sap.ui.Device.system, 'tablet', {
+    Object.defineProperty(samParameters.ui.Device.system, 'tablet', {
         get: function() {
             return true;
         }
     });
 
-    Object.defineProperty(sap.ui.Device.system, 'phone', {
+    Object.defineProperty(samParameters.ui.Device.system, 'phone', {
         get: function() {
             return true;
         }
@@ -102,7 +102,7 @@
 
 
     // Attendre que le module soit chargé
-    sap.ui.require(["sap/ui/model/odata/v2/ODataModel"], function(ODataModel) {
+    samParameters.ui.require(["sap/ui/model/odata/v2/ODataModel"], function(ODataModel) {
     if (ODataModel) {
             // Sauvegarder la méthode originale
             const originalCallFunction = ODataModel.prototype.callFunction;
@@ -114,6 +114,22 @@
                 const originalError = mParameters.error;
 
                 if ( sPath === "/GetUserData" ) {
+                
+                if (mParameters) {
+                        K = mParameters.groupId || mParameters.batchGroupId;
+                        N = mParameters.changeSetId;
+                        J = mParameters.method ? mParameters.method : J;
+                        G = Object.assign({}, mParameters.urlParameters);
+                        V = mParameters.eTag;
+                        S = mParameters.success;
+                        I = mParameters.error;
+                        T = mParameters.headers;
+                        b1 = mParameters.refreshAfterChange;
+
+                        console.log("Headers")
+                        console.log(T)
+                      }
+                
                   console.log("mParameters")
                   console.log(mParameters)
                   console.log("arguments")
@@ -123,7 +139,7 @@
 
                  // Redéfinir la fonction success
                  mParameters.success = function(oResult) {
-                     addLog('GetUserData.success-before');
+                     addLog('* GetUserData.success-before');
                      console.log(oResult)
 
                      addLog('[' + oResult.GetUserData.Admin + '][' + oResult.GetUserData.Ename + '][' + oResult.GetUserData.UserId + ']');
@@ -133,18 +149,18 @@
 
                      // Ajoutez ici le code supplémentaire ou modifié
                      originalSuccess.apply(this, arguments);
-                     addLog('GetUserData.success-after');
+                     addLog('* GetUserData.success-after');
                  };
 
                  mParameters.error = function(oError) {
-                      addLog('GetUserData.error-before');
+                      addError('* GetUserData.error-before');
                       console.log(oError)
 
                       var oFunctError = JSON.parse(oError.responseText);
                       addError(oFunctError)
 
                       originalError.apply(this, arguments);
-                      addLog('GetUserData.error-after');
+                      addError('* GetUserData.error-after');
                   };
                 }
 
